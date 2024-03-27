@@ -27,4 +27,3 @@ let rec factorial x =
 let%test "Testing factorial..." = Int.( = ) 1 (factorial 0)
 let%test "Testing factorial..." = Int.( = ) 120 (factorial 5)
 let%test "Testing factorial..." = Int.( = ) 479001600 (factorial 12)
-gfs
