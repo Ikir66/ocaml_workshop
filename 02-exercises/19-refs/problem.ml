@@ -17,8 +17,18 @@ let () =
    You could do this using [List.fold], but for the purpose of this exercise,
    let's iterate over the list and explicitly maintain refs of the minimum and
    maximum values seen so far instead. *)
+
 let min_and_max lst =
-  failwith "For you to implement"
+  match lst with
+  | [] -> failwith "List is empty"
+  | x :: tl ->
+      let min = ref x in
+      let max = ref x in
+      List.iter tl ~f:(fun item ->
+        if item < !min then min := item;
+        if item > !max then max := item
+      );
+      (!min, !max)
 
 (* By the way, can you guess how a [ref] is implemented under the hood? 
 

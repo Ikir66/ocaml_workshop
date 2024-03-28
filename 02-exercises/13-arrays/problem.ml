@@ -29,7 +29,7 @@ let () =
   let array = Array.create ~len:5 "hello" in
   assert (String.(=) "hello" (Array.get array 1));
   Array.set array 2 "hello world";
-  assert (String.(=) "hello world" (Array.get array 2))
+  assert (String.(=) "hello world" (Array.get array 2));;
 
 (* OCaml also provides some nice syntatic sugar for accessing values and setting
    the value at [INDEX] in an array [ARRAY]: 
@@ -54,7 +54,7 @@ let () =
 
    Let's implement a function [double] using [Array.iteri], which takes an [int
    array] and doubles each element of the array in place. *)
-let double array : unit = failwith "For you to implement"
+let double array : unit = Array.iteri array ~f:(fun i x -> array.(i) <- x * 2)
 
 let%test "Testing double..." = 
   let array = [| 1; 1; 1 |] in
@@ -72,7 +72,12 @@ let%test "Testing double..." =
 
 (* Write a function that takes an [int array] and a list of indicies and
    doubles each of the elements at the specified indices. *)
-let double_selectively array indices : unit = failwith "For you to implement"
+let double_selectively array indices : unit =
+  List.iter ~f:(fun i ->
+    if i >= 0 && i < Array.length array then
+      array.(i) <- array.(i) * 2
+  ) indices
+
 
 let%test "Testing double_selectively..." = 
   let array = [| 1; 1; 1 |] in
@@ -103,7 +108,10 @@ let () =
 
 (* Write a function that takes an [int array array] and doubles each of the
    elements at the specified indices. *)
-let double_matrix matrix : unit = failwith "For you to implement"
+let double_matrix matrix : unit =
+  Array.iter matrix ~f:(fun row -> 
+    Array.iteri row ~f:(fun i x -> row.(i) <- x * 2)
+  )
 
 let%test "Testing double_matrix..." = 
   let matrix = [| [| 1; 2; 3 |]; [| 1; 1; 1 |] |] in
